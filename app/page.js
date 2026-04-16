@@ -268,6 +268,7 @@ export default function Page(){
   const [event,setEvent]=useState(null);
   const [chosenChoice,setChosenChoice]=useState(null);
   const [quizAnswer,setQuizAnswer]=useState(null);
+  const [quizShuffled,setQuizShuffled]=useState(false);
   const [result,setResult]=useState(null);
   const [isRunning,setIsRunning]=useState(false);
   const [warnings,setWarnings]=useState([]);
@@ -287,7 +288,7 @@ export default function Page(){
     }
     const missing=(comp.requires||[]).filter(r=>!build.includes(r));
     if(missing.length>0){const names=missing.map(m=>ALL_COMPS.find(c=>c.id===m)?.name||m);setWarnings([`${comp.name} needs ${names.join(" + ")} first`]);sound.warn();setTimeout(()=>setWarnings([]),2500);return;}
-    if(comp.question){setPendingComp(comp);setQuizAnswer(null);return;}
+    if(comp.question){setPendingComp(comp);setQuizAnswer(null);setQuizShuffled(Math.random()>0.5);return;}
     setBuild(b=>[...b,id]);sound.choose();
   };
 
@@ -453,8 +454,13 @@ export default function Page(){
                   <div style={{fontSize:18,fontWeight:800,marginTop:12,lineHeight:1.4}}>{pendingComp.question.q}</div>
                   {!quizAnswer?(
                     <div style={{display:"grid",gap:10,marginTop:20}}>
-                      <button onClick={()=>answerQuestion(true)} style={{...st.answerBtn,borderColor:"rgba(120,240,196,0.2)"}}>{pendingComp.question.right}</button>
-                      <button onClick={()=>answerQuestion(false)} style={{...st.answerBtn,borderColor:"rgba(255,127,127,0.15)"}}>{pendingComp.question.wrong}</button>
+                      {(quizShuffled?[
+                        <button key="w" onClick={()=>answerQuestion(false)} style={{...st.answerBtn}}>{pendingComp.question.wrong}</button>,
+                        <button key="r" onClick={()=>answerQuestion(true)} style={{...st.answerBtn}}>{pendingComp.question.right}</button>,
+                      ]:[
+                        <button key="r" onClick={()=>answerQuestion(true)} style={{...st.answerBtn}}>{pendingComp.question.right}</button>,
+                        <button key="w" onClick={()=>answerQuestion(false)} style={{...st.answerBtn}}>{pendingComp.question.wrong}</button>,
+                      ])}
                     </div>
                   ):(
                     <div style={{marginTop:16}}>
