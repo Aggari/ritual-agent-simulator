@@ -350,6 +350,7 @@ export default function Page(){
       <div style={st.shell}>
         <header style={st.topbar}>
           <div style={st.brandWrap}><div style={st.logo}>◆</div><div><div style={st.brand}>Ritual Agent Simulator</div><div style={st.brandSub}>Build. Deploy. Stress test.</div></div></div>
+          <div style={st.credit}>created by <a href="https://twitter.com/Livinginaprayer" target="_blank" rel="noopener noreferrer" style={st.creditLink}>@Livinginaprayer</a></div>
         </header>
 
         {/* MENU */}
@@ -562,6 +563,9 @@ export default function Page(){
                 <button onClick={()=>{sound.choose();setChosenChoice(null);setEvent(null);setScreen("build");}} style={st.primaryBtnLg}>Rebuild →</button>
                 <button onClick={resetAll} style={st.secondaryBtnLg}>Menu</button>
               </div>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I scored ${result.total} on the Ritual Agent Simulator — assembled ${build.length} Ritual components and ${result.total>=72?"my agent executed successfully":"learned what went wrong"}\n\nCan you build a better stack?\n\nhttps://ritual-simulator-badang.vercel.app/\n\n@ritualfnd @dunken9718 @Jez_Cryptoz @joshsimenhoff @0xMadScientist`)}`} target="_blank" rel="noopener noreferrer" style={st.shareBtn}>
+                Share on X →
+              </a>
             </aside>
           </section>
         )}
@@ -652,4 +656,7 @@ const st={
   statTrack:{height:8,borderRadius:999,background:"rgba(255,255,255,0.06)",overflow:"hidden"},
   statFill:{height:"100%",borderRadius:999,background:"linear-gradient(90deg,#78f0c4,#8db7ff)"},
   resultButtons:{display:"grid",gap:10,marginTop:18},
+  shareBtn:{display:"block",textAlign:"center",marginTop:14,padding:"14px 20px",borderRadius:16,background:"rgba(29,155,240,0.1)",border:"1px solid rgba(29,155,240,0.2)",color:"#1d9bf0",fontSize:13,fontWeight:700,letterSpacing:1,textDecoration:"none",cursor:"pointer"},
+  credit:{fontSize:12,color:"rgba(244,247,251,0.45)",padding:"8px 14px",borderRadius:999,background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.06)"},
+  creditLink:{color:"#78f0c4",textDecoration:"none",fontWeight:600},
 };
