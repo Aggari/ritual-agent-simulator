@@ -352,7 +352,7 @@ export default function Page(){
       <div style={st.bgGrid}/><div style={st.glowA}/><div style={st.glowB}/>
       <div style={st.shell}>
         <header style={st.topbar}>
-          <div style={st.brandWrap}><div style={st.logo}>◆</div><div><div style={st.brand}>Ritual Agent Simulator</div><div style={st.brandSub}>Build. Deploy. Stress test.</div></div></div>
+          <div style={st.brandWrap}><div style={st.logo}>◆</div><div><div style={st.brand}>Ritual Stack Builder</div><div style={st.brandSub}>Build. Deploy. Stress test.</div></div></div>
           <div style={st.credit}>created by <a href="https://twitter.com/Livinginaprayer" target="_blank" rel="noopener noreferrer" style={st.creditLink}>@Livinginaprayer</a></div>
         </header>
 
@@ -455,11 +455,11 @@ export default function Page(){
                   {!quizAnswer?(
                     <div style={{display:"grid",gap:10,marginTop:20}}>
                       {(quizShuffled?[
-                        <button key="w" onClick={()=>answerQuestion(false)} style={{...st.answerBtn}}>{pendingComp.question.wrong}</button>,
-                        <button key="r" onClick={()=>answerQuestion(true)} style={{...st.answerBtn}}>{pendingComp.question.right}</button>,
+                        <button key="w" onClick={()=>answerQuestion(false)} style={{...st.answerBtn,borderColor:"rgba(255,255,255,0.08)",background:"rgba(255,255,255,0.02)"}}>{pendingComp.question.wrong}</button>,
+                        <button key="r" onClick={()=>answerQuestion(true)} style={{...st.answerBtn,borderColor:"rgba(255,255,255,0.08)",background:"rgba(255,255,255,0.02)"}}>{pendingComp.question.right}</button>,
                       ]:[
-                        <button key="r" onClick={()=>answerQuestion(true)} style={{...st.answerBtn}}>{pendingComp.question.right}</button>,
-                        <button key="w" onClick={()=>answerQuestion(false)} style={{...st.answerBtn}}>{pendingComp.question.wrong}</button>,
+                        <button key="r" onClick={()=>answerQuestion(true)} style={{...st.answerBtn,borderColor:"rgba(255,255,255,0.08)",background:"rgba(255,255,255,0.02)"}}>{pendingComp.question.right}</button>,
+                        <button key="w" onClick={()=>answerQuestion(false)} style={{...st.answerBtn,borderColor:"rgba(255,255,255,0.08)",background:"rgba(255,255,255,0.02)"}}>{pendingComp.question.wrong}</button>,
                       ])}
                     </div>
                   ):(
@@ -571,7 +571,7 @@ export default function Page(){
                 <button onClick={()=>{sound.choose();setChosenChoice(null);setEvent(null);setScreen("build");}} style={st.primaryBtnLg}>Rebuild →</button>
                 <button onClick={resetAll} style={st.secondaryBtnLg}>Menu</button>
               </div>
-              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I scored ${result.total} on the Ritual Agent Simulator — assembled ${build.length} Ritual components and ${result.total>=72?"my agent executed successfully":"learned what went wrong"}\n\nCan you build a better stack?\n\nhttps://ritual-simulator-badang.vercel.app/\n\n@ritualfnd @dunken9718 @Jez_Cryptoz @joshsimenhoff @0xMadScientist`)}`} target="_blank" rel="noopener noreferrer" style={st.shareBtn}>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I scored ${result.total} on the Ritual Stack Builder — assembled ${build.length} Ritual components and ${result.total>=72?"my agent executed successfully":"learned what went wrong"}\n\nCan you build a better stack?\n\nhttps://ritual-simulator-badang.vercel.app/\n\n@ritualfnd @dunken9718 @Jez_Cryptoz @joshsimenhoff @0xMadScientist`)}`} target="_blank" rel="noopener noreferrer" style={st.shareBtn}>
                 Share on X →
               </a>
             </aside>
