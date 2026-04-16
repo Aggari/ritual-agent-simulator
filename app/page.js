@@ -267,6 +267,7 @@ export default function Page(){
   const [phaseIndex,setPhaseIndex]=useState(-1);
   const [event,setEvent]=useState(null);
   const [chosenChoice,setChosenChoice]=useState(null);
+  const [quizAnswer,setQuizAnswer]=useState(null);
   const [result,setResult]=useState(null);
   const [isRunning,setIsRunning]=useState(false);
   const [warnings,setWarnings]=useState([]);
@@ -286,15 +287,16 @@ export default function Page(){
     }
     const missing=(comp.requires||[]).filter(r=>!build.includes(r));
     if(missing.length>0){const names=missing.map(m=>ALL_COMPS.find(c=>c.id===m)?.name||m);setWarnings([`${comp.name} needs ${names.join(" + ")} first`]);sound.warn();setTimeout(()=>setWarnings([]),2500);return;}
-    if(comp.question){setPendingComp(comp);return;}
+    if(comp.question){setPendingComp(comp);setQuizAnswer(null);return;}
     setBuild(b=>[...b,id]);sound.choose();
   };
 
   const answerQuestion=(correct)=>{
     if(!pendingComp)return;
+    setQuizAnswer(correct?"right":"wrong");
     if(correct){sound.correct();setBuild(b=>[...b,pendingComp.id]);}
     else{sound.wrong();}
-    setTimeout(()=>setPendingComp(null),correct?1500:3000);
+    setTimeout(()=>{setPendingComp(null);setQuizAnswer(null);},correct?1800:3500);
   };
 
   // ── Deploy ──
@@ -341,7 +343,7 @@ export default function Page(){
     },2500);
   };
 
-  const resetAll=()=>{sound.reset();setBuild(["evm"]);setResult(null);setPhaseIndex(-1);setIsRunning(false);setWarnings([]);setEvent(null);setChosenChoice(null);setPendingComp(null);setScreen("menu");};
+  const resetAll=()=>{sound.reset();setBuild(["evm"]);setResult(null);setPhaseIndex(-1);setIsRunning(false);setWarnings([]);setEvent(null);setChosenChoice(null);setQuizAnswer(null);setPendingComp(null);setScreen("menu");};
 
   // ─── RENDER ───────────────────────────────────────────────────
   return(
@@ -449,14 +451,14 @@ export default function Page(){
                 <div style={st.modalCard}>
                   <div style={{fontSize:11,color:pendingComp.color,fontWeight:700,letterSpacing:1.2,textTransform:"uppercase"}}>Unlock {pendingComp.name}</div>
                   <div style={{fontSize:18,fontWeight:800,marginTop:12,lineHeight:1.4}}>{pendingComp.question.q}</div>
-                  {!chosenChoice?(
+                  {!quizAnswer?(
                     <div style={{display:"grid",gap:10,marginTop:20}}>
-                      <button onClick={()=>{setChosenChoice("right");answerQuestion(true);}} style={{...st.answerBtn,borderColor:"rgba(120,240,196,0.2)"}}>{pendingComp.question.right}</button>
-                      <button onClick={()=>{setChosenChoice("wrong");answerQuestion(false);}} style={{...st.answerBtn,borderColor:"rgba(255,127,127,0.15)"}}>{pendingComp.question.wrong}</button>
+                      <button onClick={()=>answerQuestion(true)} style={{...st.answerBtn,borderColor:"rgba(120,240,196,0.2)"}}>{pendingComp.question.right}</button>
+                      <button onClick={()=>answerQuestion(false)} style={{...st.answerBtn,borderColor:"rgba(255,127,127,0.15)"}}>{pendingComp.question.wrong}</button>
                     </div>
                   ):(
                     <div style={{marginTop:16}}>
-                      <div style={{fontSize:14,fontWeight:700,color:chosenChoice==="right"?"#78f0c4":"#ff7f7f",marginBottom:8}}>{chosenChoice==="right"?"Correct!":"Not quite."}</div>
+                      <div style={{fontSize:14,fontWeight:700,color:quizAnswer==="right"?"#78f0c4":"#ff7f7f",marginBottom:8}}>{quizAnswer==="right"?"Correct!":"Not quite."}</div>
                       <div style={{fontSize:13,color:"rgba(244,247,251,0.7)",lineHeight:1.7}}>{pendingComp.question.explain}</div>
                     </div>
                   )}
